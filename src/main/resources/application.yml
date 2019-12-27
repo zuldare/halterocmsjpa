@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url:  jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      settings:
+        trace: true
+
+
+#spring.datasource.url=jdbc:h2:file:/data/demo
+#SCRIPT NODATA; --> devuelve un ddl de h2

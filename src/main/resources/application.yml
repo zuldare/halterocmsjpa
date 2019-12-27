@@ -15,3 +15,9 @@ spring:
 
 #spring.datasource.url=jdbc:h2:file:/data/demo
 #SCRIPT NODATA; --> devuelve un ddl de h2
+
+# LAUNCH IN LOCAL
+#  spring.datasource.name=yourdbname
+#  spring.datasource.initialize=false
+#  spring.datasource.url=jdbc:h2:file:~/yourdbname;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=TRUE;DB_CLOSE_DELAY=-1;
+#  spring.jpa.hibernate.ddl-auto = update

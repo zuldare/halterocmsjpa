@@ -1,13 +1,14 @@
 package com.jho.halterocmsjpa;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@SpringBootTest
+@RunWith(SpringRunner.class)
 class HalterocmsjpaApplicationTests {
 
-  @Test
-  void contextLoads() {
-  }
+    @Test
+    public void test1() {
+    }
 
 }

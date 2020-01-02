@@ -1,23 +1,19 @@
 package com.jho.halterocmsjpa.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "athletes")
+@Table(name = "ATHLETES")
 public class Athlete {
 
   @Id
@@ -26,7 +22,10 @@ public class Athlete {
   private Integer id;
 
   @Column(name = "name")
-  private String nameSurname;
+  private String name;
+
+  @Column(name = "surname")
+  private String surname;
 
   @Column(name = "gender")
   private Integer gender;
@@ -34,5 +33,7 @@ public class Athlete {
   @Column(name = "birth_year")
   private Integer birthYear;
 
+  @OneToMany(mappedBy = "athlete")
+  private Set<AthleteBout> athletesBouts;
 
 }

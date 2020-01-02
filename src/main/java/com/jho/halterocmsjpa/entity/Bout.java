@@ -1,38 +1,52 @@
 package com.jho.halterocmsjpa.entity;
 
-import java.time.LocalTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.time.LocalTime;
+import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "bouts")
+@Table(name = "BOUTS")
 public class Bout {
 
-  @Id
+    @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id")
-  private Integer id;
+    @Column(name = "id")
+    private Integer id;
 
-  @Column(name = "description")
-  private String description;
+    @Column(name = "description")
+    private String description;
 
-  @Temporal(TemporalType.TIME)
-  @Column(name = "begin_time")
-  private LocalTime beginTime;
+    @Temporal(TemporalType.TIME)
+    @Column(name = "begin_time")
+    private LocalTime beginTime;
+
+    @Column(name = "gender")
+    private Integer gender;
+
+    @ManyToOne
+    @JoinColumn(name = "competition_id", nullable = false)
+    private Competition competition;
+
+    @OneToMany(mappedBy = "bout")
+    private Set<AthleteBout> athletesBouts;
+
+    @Transient
+    private Integer numberOfLifts;
+
+    @Transient
+    private Boolean areSnatchesFinished;
+
+    @Transient
+    private Boolean areCJFinished;
 
 
 }

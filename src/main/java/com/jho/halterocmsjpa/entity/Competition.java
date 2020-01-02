@@ -10,6 +10,9 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * Competition entity layer.
+ */
 @Data
 @Builder
 @NoArgsConstructor

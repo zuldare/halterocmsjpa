@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Athlete entity layer.
+ */
 @Data
 @Builder
 @NoArgsConstructor

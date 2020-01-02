@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * Bout entity layer.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,36 +20,36 @@ import java.util.Set;
 @Table(name = "BOUTS")
 public class Bout {
 
-    @Id
+  @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Integer id;
+  @Column(name = "id")
+  private Integer id;
 
-    @Column(name = "description")
-    private String description;
+  @Column(name = "description")
+  private String description;
 
-    @Temporal(TemporalType.TIME)
-    @Column(name = "begin_time")
-    private Date beginTime;
+  @Temporal(TemporalType.TIME)
+  @Column(name = "begin_time")
+  private Date beginTime;
 
-    @Column(name = "gender")
-    private Integer gender;
+  @Column(name = "gender")
+  private Integer gender;
 
-    @ManyToOne
-    @JoinColumn(name = "competition_id", nullable = false)
-    private Competition competition;
+  @ManyToOne
+  @JoinColumn(name = "competition_id", nullable = false)
+  private Competition competition;
 
-    @OneToMany(mappedBy = "bout")
-    private Set<AthleteBout> athletesBouts;
+  @OneToMany(mappedBy = "bout")
+  private Set<AthleteBout> athletesBouts;
 
-    @Transient
-    private Integer numberOfLifts;
+  @Transient
+  private Integer numberOfLifts;
 
-    @Transient
-    private Boolean areSnatchesFinished;
+  @Transient
+  private Boolean areSnatchesFinished;
 
-    @Transient
-    private Boolean areCJFinished;
+  @Transient
+  private Boolean areCJFinished;
 
 
 }

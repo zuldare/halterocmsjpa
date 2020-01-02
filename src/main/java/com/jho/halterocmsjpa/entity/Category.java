@@ -9,6 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 
+/**
+ * Category entity layer.
+ */
 @Data
 @Builder
 @NoArgsConstructor

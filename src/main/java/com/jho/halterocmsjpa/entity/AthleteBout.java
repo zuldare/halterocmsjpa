@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+/**
+ * AthleteBout entity layer.
+ */
 @Data
 @Builder
 @NoArgsConstructor

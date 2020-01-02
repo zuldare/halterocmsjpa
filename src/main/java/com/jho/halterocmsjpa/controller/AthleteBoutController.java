@@ -3,9 +3,8 @@ package com.jho.halterocmsjpa.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Athlete controller layer.
+ * AthleteBout controller layer.
  */
 @RestController
-public class AhtleteController {
-
+public class AthleteBoutController {
 }

@@ -26,6 +26,9 @@ public class Competition {
   @Column(name = "id")
   private Integer id;
 
+  @Column(name = "description")
+  private String description;
+
   @Column(name = "place")
   @Size(max = 128)
   private String place;

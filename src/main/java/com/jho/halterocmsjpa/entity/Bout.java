@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalTime;
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -27,7 +27,7 @@ public class Bout {
 
     @Temporal(TemporalType.TIME)
     @Column(name = "begin_time")
-    private LocalTime beginTime;
+    private Date beginTime;
 
     @Column(name = "gender")
     private Integer gender;

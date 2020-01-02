@@ -33,10 +33,10 @@ public class AthleteBout {
     @Column(name = "sn1_state")
     private Integer sn1State;
 
-    @Column(name = "sn1_state")
+    @Column(name = "sn2_state")
     private Integer sn2State;
 
-    @Column(name = "sn1_state")
+    @Column(name = "sn3_state")
     private Integer sn3State;
 
     @Column(name = "cj1_weight")

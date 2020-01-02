@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 @Data

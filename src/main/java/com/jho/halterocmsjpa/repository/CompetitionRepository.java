@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CompetitionRepository extends JpaRepository<Competition, Integer> {
+
+    Competition findCompetitionByDescriptionAndBeginDate(String description, Long beginDate);
+
 }

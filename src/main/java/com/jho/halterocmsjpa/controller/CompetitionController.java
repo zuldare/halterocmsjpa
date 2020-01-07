@@ -1,6 +1,7 @@
 package com.jho.halterocmsjpa.controller;
 
-import com.jho.halterocmsjpa.dto.athlete.AthleteCreateDto;
+import com.jho.halterocmsjpa.dto.competition.CompetitionCreateDto;
+import com.jho.halterocmsjpa.dto.competition.CompetitionDto;
 import com.jho.halterocmsjpa.service.CompetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,11 +22,12 @@ public class CompetitionController {
     /**
      * Creates a new competition.
      *
-     * @param athleteCreateDto dto containing the information in order to create a competition.
+     * @param competitionCreateDto dto containing the information in order to create a competition
+     * @return a dto containing the newly created competition.
      */
     @PostMapping("/")
-    public void createCompetition(@Valid @RequestBody AthleteCreateDto athleteCreateDto) {
-        competitionService.createCompetition(athleteCreateDto);
+    public CompetitionDto createCompetition(@Valid @RequestBody CompetitionCreateDto competitionCreateDto) {
+        return competitionService.createCompetition(competitionCreateDto);
     }
 
 }

@@ -36,7 +36,7 @@ public class Athlete {
   @Column(name = "birth_year")
   private Integer birthYear;
 
-  @OneToMany(mappedBy = "athlete")
+  @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
   private Set<AthleteBout> athletesBouts;
 
 }

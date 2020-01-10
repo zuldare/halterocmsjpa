@@ -39,7 +39,7 @@ public class Bout {
   @JoinColumn(name = "competition_id", nullable = false)
   private Competition competition;
 
-  @OneToMany(mappedBy = "bout")
+  @OneToMany(mappedBy = "bout", cascade = CascadeType.ALL)
   private Set<AthleteBout> athletesBouts;
 
   @Transient

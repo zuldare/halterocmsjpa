@@ -52,10 +52,7 @@ public class CompetitionServiceImpl implements CompetitionService {
     public void deleteCompetition(Integer competitionId) {
         Competition competition = competitionRepository.findCompetitionById(competitionId);
 
-        if (isNull(competition)) {
-            log.error("Competition {} could not be deleted because it does not exists.", competitionId);
-            throw new CompetitionNotExists();
-        }
+        checkIfCompetitionExists(competitionId, competition);
 
         competitionRepository.deleteById(competitionId);
         log.info("Deleted competition {}", competitionId);
@@ -73,11 +70,32 @@ public class CompetitionServiceImpl implements CompetitionService {
         }.getType());
     }
 
+    /**
+     * Get a competition according to a competition identification.
+     *
+     * @param competitionId identification of the competition.
+     * @return the competition with the demanded identification.
+     */
+    @Override
+    public CompetitionDto getCompetition(Integer competitionId) {
+        Competition competition = competitionRepository.findCompetitionById(competitionId);
+        checkIfCompetitionExists(competitionId, competition);
+
+        return modelMapper.map(competition, CompetitionDto.class);
+    }
+
     private void checkIfCompetitionExists(CompetitionCreateDto competitionCreateDto) {
         Competition competition = competitionRepository.findCompetitionByDescriptionAndBeginDate(competitionCreateDto.getDescription(), competitionCreateDto.getBeginDate());
         if (competition != null) {
             log.error("A competition with name {} and begin date {} already exists.", competitionCreateDto.getDescription(), competitionCreateDto.getBeginDate());
             throw new CompetitionAlreadyExists();
+        }
+    }
+
+    private void checkIfCompetitionExists(Integer competitionId, Competition competition) {
+        if (isNull(competition)) {
+            log.error("Competition {} could not be deleted because it does not exists.", competitionId);
+            throw new CompetitionNotExists();
         }
     }
 

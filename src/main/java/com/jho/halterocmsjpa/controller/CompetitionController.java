@@ -29,6 +29,17 @@ public class CompetitionController {
     }
 
     /**
+     * Get a competition according to a competition identification.
+     *
+     * @param competitionId identification of the competition.
+     * @return the competition with the demanded identification.
+     */
+    @GetMapping("/competitions/{competitionId}")
+    public CompetitionDto getCompetition(@PathVariable Integer competitionId) {
+        return competitionService.getCompetition(competitionId);
+    }
+
+    /**
      * Creates a new competition.
      *
      * @param competitionCreateDto dto containing the information in order to create a competition

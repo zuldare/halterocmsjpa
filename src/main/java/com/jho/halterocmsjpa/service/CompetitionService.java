@@ -28,4 +28,12 @@ public interface CompetitionService {
      * @return a list with all the competitions.
      */
     List<CompetitionDto> getCompetitions();
+
+    /**
+     * Get a competition according to a competition identification.
+     *
+     * @param competitionId identification of the competition.
+     * @return the competition with the demanded identification.
+     */
+    CompetitionDto getCompetition(Integer competitionId);
 }

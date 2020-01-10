@@ -170,6 +170,36 @@ public class CompetitionServiceTest {
         assertThat(competitionDtos.get(1).getEndDate(), is(new Date(DAY_1)));
     }
 
+    @Test(expected = CompetitionNotExists.class)
+    public void testCompetitionByIdNotExists() {
+        CompetitionDto competitionDto = competitionService.getCompetition(ID_1);
+    }
+
+    @Test
+    public void testCompetitionByIdOK() {
+        // Given
+        // When
+        when(competitionRepository.findCompetitionById(ID_1))
+                .thenReturn(Competition.builder()
+                        .id(ID_1)
+                        .place(PLACE_1)
+                        .organizer(ORGANIZER_1)
+                        .beginDate(new Date(DAY_0))
+                        .endDate(new Date(DAY_1))
+                        .description(COMPETITION_DESC_1)
+                        .build());
+
+        // Assert
+        CompetitionDto competitionDto = competitionService.getCompetition(ID_1);
+
+        assertNotNull(competitionDto);
+        assertThat(competitionDto.getId(), is(ID_1));
+        assertThat(competitionDto.getPlace(), is(PLACE_1));
+        assertThat(competitionDto.getOrganizer(), is(ORGANIZER_1));
+        assertThat(competitionDto.getDescription(), is(COMPETITION_DESC_1));
+        assertThat(competitionDto.getBeginDate(), is(new Date(DAY_0)));
+        assertThat(competitionDto.getEndDate(), is(new Date(DAY_1)));
+    }
 
     @After
     public void cleanup() {

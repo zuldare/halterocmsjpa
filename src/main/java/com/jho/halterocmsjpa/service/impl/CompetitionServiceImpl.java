@@ -9,8 +9,11 @@ import com.jho.halterocmsjpa.repository.CompetitionRepository;
 import com.jho.halterocmsjpa.service.CompetitionService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
@@ -58,6 +61,17 @@ public class CompetitionServiceImpl implements CompetitionService {
         log.info("Deleted competition {}", competitionId);
     }
 
+    /**
+     * Gets all the competitions.
+     *
+     * @return a list with all the competitions.
+     */
+    @Override
+    public List<CompetitionDto> getCompetitions() {
+        List<Competition> competitions = competitionRepository.findAll();
+        return modelMapper.map(competitions, new TypeToken<List<CompetitionDto>>() {
+        }.getType());
+    }
 
     private void checkIfCompetitionExists(CompetitionCreateDto competitionCreateDto) {
         Competition competition = competitionRepository.findCompetitionByDescriptionAndBeginDate(competitionCreateDto.getDescription(), competitionCreateDto.getBeginDate());

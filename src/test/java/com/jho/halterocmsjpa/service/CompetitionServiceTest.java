@@ -22,6 +22,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -32,12 +34,16 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringRunner.class)
 public class CompetitionServiceTest {
 
-    private static final String COMPETITION_DESC = "Diktator Cup";
-    private static final String ORGANIZER = "Tracius";
-    private static final String PLACE = "Calle Industrias 32, Alcorcón";
+    private static final String COMPETITION_DESC_1 = "Diktator Cup";
+    private static final String COMPETITION_DESC_2 = "Cup 2";
+    private static final String ORGANIZER_1 = "Tracius";
+    private static final String ORGANIZER_2 = "Sideropolis";
+    private static final String PLACE_1 = "Calle Industrias 32, Alcorcón";
+    private static final String PLACE_2 = "Siderpolis Club";
     private static final Long DAY_0 = 0L;   //1970-01-01
     private static final Long DAY_1 = 86400L; //1970-01-02
     private static final Integer ID_1 = 1;
+    private static final Integer ID_2 = 2;
 
     @MockBean
     private CompetitionRepository competitionRepository;
@@ -53,15 +59,15 @@ public class CompetitionServiceTest {
         CompetitionCreateDto competitionCreateDto = CompetitionCreateDto.builder()
                 .beginDate(DAY_0)
                 .endDate(DAY_1)
-                .description(COMPETITION_DESC)
-                .organizer(ORGANIZER)
-                .place(PLACE)
+                .description(COMPETITION_DESC_1)
+                .organizer(ORGANIZER_1)
+                .place(PLACE_1)
                 .build();
 
         //When
         when(competitionRepository.findCompetitionByDescriptionAndBeginDate(anyString(), anyLong()))
                 .thenReturn(Competition.builder()
-                        .description(COMPETITION_DESC)
+                        .description(COMPETITION_DESC_1)
                         .beginDate(new Date(DAY_0))
                         .endDate(new Date(DAY_1))
                         .build());
@@ -77,19 +83,19 @@ public class CompetitionServiceTest {
         CompetitionCreateDto competitionCreateDto = CompetitionCreateDto.builder()
                 .beginDate(DAY_0)
                 .endDate(DAY_1)
-                .description(COMPETITION_DESC)
-                .organizer(ORGANIZER)
-                .place(PLACE)
+                .description(COMPETITION_DESC_1)
+                .organizer(ORGANIZER_1)
+                .place(PLACE_1)
                 .build();
 
         //When
         when(competitionRepository.save(any(Competition.class)))
                 .thenReturn(Competition.builder()
-                        .description(COMPETITION_DESC)
+                        .description(COMPETITION_DESC_1)
                         .beginDate(new Date(DAY_0))
                         .endDate(new Date(DAY_1))
-                        .organizer(ORGANIZER)
-                        .place(PLACE)
+                        .organizer(ORGANIZER_1)
+                        .place(PLACE_1)
                         .id(ID_1)
                         .build());
 
@@ -100,9 +106,9 @@ public class CompetitionServiceTest {
         assertNotNull(competitionDto.getId());
         assertThat(competitionDto.getBeginDate(), is(new Date(DAY_0)));
         assertThat(competitionDto.getEndDate(), is(new Date(DAY_1)));
-        assertThat(competitionDto.getDescription(), is(COMPETITION_DESC));
-        assertThat(competitionDto.getOrganizer(), is(ORGANIZER));
-        assertThat(competitionDto.getPlace(), is(PLACE));
+        assertThat(competitionDto.getDescription(), is(COMPETITION_DESC_1));
+        assertThat(competitionDto.getOrganizer(), is(ORGANIZER_1));
+        assertThat(competitionDto.getPlace(), is(PLACE_1));
     }
 
     @Test(expected = CompetitionNotExists.class)
@@ -121,8 +127,47 @@ public class CompetitionServiceTest {
 
         // Assert
         competitionService.deleteCompetition(ID_1);
-
         verify(competitionRepository, times(1)).deleteById(ID_1);
+    }
+
+    @Test
+    public void testGetCompetitionsNoCompetitionsShouldReturnEmptyList() {
+        // Given
+        // When
+        List<CompetitionDto> competitions = competitionService.getCompetitions();
+
+        // Assert
+        assertNotNull(competitions);
+        assertThat(competitions.size(), is(0));
+    }
+
+    @Test
+    public void testGetCompetitionsShouldReturnCompetitionList() {
+        // Given
+        List<Competition> competitions = Arrays.asList(Competition.builder().id(ID_1).description(COMPETITION_DESC_1).beginDate(new Date(DAY_0)).endDate(new Date(DAY_1)).organizer(ORGANIZER_1).place(PLACE_1).build(),
+                Competition.builder().id(ID_2).description(COMPETITION_DESC_2).beginDate(new Date(DAY_0)).endDate(new Date(DAY_1)).organizer(ORGANIZER_2).place(PLACE_2).build());
+
+        // When
+        when(competitionRepository.findAll()).thenReturn(competitions);
+
+        // Assert
+        List<CompetitionDto> competitionDtos = competitionService.getCompetitions();
+
+        assertNotNull(competitionDtos);
+        assertThat(competitions.size(), is(2));
+        assertThat(competitionDtos.get(0).getId(), is(ID_1));
+        assertThat(competitionDtos.get(0).getDescription(), is(COMPETITION_DESC_1));
+        assertThat(competitionDtos.get(0).getOrganizer(), is(ORGANIZER_1));
+        assertThat(competitionDtos.get(0).getPlace(), is(PLACE_1));
+        assertThat(competitionDtos.get(0).getBeginDate(), is(new Date(DAY_0)));
+        assertThat(competitionDtos.get(0).getEndDate(), is(new Date(DAY_1)));
+
+        assertThat(competitionDtos.get(1).getId(), is(ID_2));
+        assertThat(competitionDtos.get(1).getDescription(), is(COMPETITION_DESC_2));
+        assertThat(competitionDtos.get(1).getOrganizer(), is(ORGANIZER_2));
+        assertThat(competitionDtos.get(1).getPlace(), is(PLACE_2));
+        assertThat(competitionDtos.get(1).getBeginDate(), is(new Date(DAY_0)));
+        assertThat(competitionDtos.get(1).getEndDate(), is(new Date(DAY_1)));
     }
 
 

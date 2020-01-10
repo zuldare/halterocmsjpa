@@ -3,6 +3,8 @@ package com.jho.halterocmsjpa.service;
 import com.jho.halterocmsjpa.dto.competition.CompetitionCreateDto;
 import com.jho.halterocmsjpa.dto.competition.CompetitionDto;
 
+import java.util.List;
+
 public interface CompetitionService {
 
     /**
@@ -19,4 +21,11 @@ public interface CompetitionService {
      * @param competitionId identification of the competition to delete.
      */
     void deleteCompetition(Integer competitionId);
+
+    /**
+     * Gets all the competitions.
+     *
+     * @return a list with all the competitions.
+     */
+    List<CompetitionDto> getCompetitions();
 }

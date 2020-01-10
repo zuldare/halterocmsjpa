@@ -4,6 +4,7 @@ import com.jho.halterocmsjpa.dto.competition.CompetitionCreateDto;
 import com.jho.halterocmsjpa.dto.competition.CompetitionDto;
 import com.jho.halterocmsjpa.service.CompetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,16 @@ public class CompetitionController {
     @PostMapping("/")
     public CompetitionDto createCompetition(@Valid @RequestBody CompetitionCreateDto competitionCreateDto) {
         return competitionService.createCompetition(competitionCreateDto);
+    }
+
+    /**
+     * Delete competition according to an identification.
+     *
+     * @param competitionId identification of the competition to delete.
+     */
+    @PostMapping("/{competitionId}")
+    public void deleteCompetition(@PathVariable Integer competitionId) {
+        competitionService.deleteCompetition(competitionId);
     }
 
 }

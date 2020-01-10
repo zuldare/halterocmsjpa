@@ -12,4 +12,8 @@ public interface CompetitionRepository extends JpaRepository<Competition, Intege
 
     Competition findCompetitionByDescriptionAndBeginDate(String description, Long beginDate);
 
+    Competition findCompetitionById(Integer competitionId);
+
+    void deleteById(Integer competitionId);
+
 }

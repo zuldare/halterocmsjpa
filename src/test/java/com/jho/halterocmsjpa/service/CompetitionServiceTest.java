@@ -4,6 +4,7 @@ import com.jho.halterocmsjpa.dto.competition.CompetitionCreateDto;
 import com.jho.halterocmsjpa.dto.competition.CompetitionDto;
 import com.jho.halterocmsjpa.entity.Competition;
 import com.jho.halterocmsjpa.exception.CompetitionAlreadyExists;
+import com.jho.halterocmsjpa.exception.CompetitionNotExists;
 import com.jho.halterocmsjpa.repository.CompetitionRepository;
 import com.jho.halterocmsjpa.service.impl.CompetitionServiceImpl;
 import org.joda.time.DateTimeUtils;
@@ -26,7 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 public class CompetitionServiceTest {
@@ -103,6 +104,27 @@ public class CompetitionServiceTest {
         assertThat(competitionDto.getOrganizer(), is(ORGANIZER));
         assertThat(competitionDto.getPlace(), is(PLACE));
     }
+
+    @Test(expected = CompetitionNotExists.class)
+    public void deleteCompetitionIdNotExistsShouldReturnError() {
+        // When
+        competitionService.deleteCompetition(ID_1);
+        // Assert
+        verify(competitionRepository, never()).deleteById(ID_1);
+    }
+
+    @Test
+    public void deleteCompetitionOK() {
+        // Given
+        // When
+        when(competitionRepository.findCompetitionById(ID_1)).thenReturn(Competition.builder().build());
+
+        // Assert
+        competitionService.deleteCompetition(ID_1);
+
+        verify(competitionRepository, times(1)).deleteById(ID_1);
+    }
+
 
     @After
     public void cleanup() {

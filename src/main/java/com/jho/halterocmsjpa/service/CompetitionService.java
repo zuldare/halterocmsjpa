@@ -12,4 +12,11 @@ public interface CompetitionService {
      * @return a dto containing the newly created competition.
      */
     CompetitionDto createCompetition(CompetitionCreateDto competitionCreateDto);
+
+    /**
+     * Delete competition according to an identification.
+     *
+     * @param competitionId identification of the competition to delete.
+     */
+    void deleteCompetition(Integer competitionId);
 }

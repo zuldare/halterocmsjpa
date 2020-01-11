@@ -131,18 +131,18 @@ public class CompetitionServiceTest {
     }
 
     @Test
-    public void testGetCompetitionsNoCompetitionsShouldReturnEmptyList() {
+    public void getCompetitionsNoCompetitionsShouldReturnEmptyList() {
         // Given
         // When
+        // Assert
         List<CompetitionDto> competitions = competitionService.getCompetitions();
 
-        // Assert
         assertNotNull(competitions);
         assertThat(competitions.size(), is(0));
     }
 
     @Test
-    public void testGetCompetitionsShouldReturnCompetitionList() {
+    public void getCompetitionsShouldReturnCompetitionList() {
         // Given
         List<Competition> competitions = Arrays.asList(Competition.builder().id(ID_1).description(COMPETITION_DESC_1).beginDate(new Date(DAY_0)).endDate(new Date(DAY_1)).organizer(ORGANIZER_1).place(PLACE_1).build(),
                 Competition.builder().id(ID_2).description(COMPETITION_DESC_2).beginDate(new Date(DAY_0)).endDate(new Date(DAY_1)).organizer(ORGANIZER_2).place(PLACE_2).build());

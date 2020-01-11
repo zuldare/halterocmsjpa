@@ -3,8 +3,8 @@ package com.jho.halterocmsjpa.service;
 import com.jho.halterocmsjpa.dto.competition.CompetitionCreateDto;
 import com.jho.halterocmsjpa.dto.competition.CompetitionDto;
 import com.jho.halterocmsjpa.entity.Competition;
-import com.jho.halterocmsjpa.exception.CompetitionAlreadyExists;
-import com.jho.halterocmsjpa.exception.CompetitionNotExists;
+import com.jho.halterocmsjpa.exception.CompetitionAlreadyExistsException;
+import com.jho.halterocmsjpa.exception.CompetitionNotExistsException;
 import com.jho.halterocmsjpa.repository.CompetitionRepository;
 import com.jho.halterocmsjpa.service.impl.CompetitionServiceImpl;
 import org.joda.time.DateTimeUtils;
@@ -51,7 +51,7 @@ public class CompetitionServiceTest {
     @Autowired
     private CompetitionService competitionService;
 
-    @Test(expected = CompetitionAlreadyExists.class)
+    @Test(expected = CompetitionAlreadyExistsException.class)
     public void createCompetitionAlreadyExistsShouldThrowException() {
         DateTimeUtils.setCurrentMillisFixed(0L);
 
@@ -111,7 +111,7 @@ public class CompetitionServiceTest {
         assertThat(competitionDto.getPlace(), is(PLACE_1));
     }
 
-    @Test(expected = CompetitionNotExists.class)
+    @Test(expected = CompetitionNotExistsException.class)
     public void deleteCompetitionIdNotExistsShouldReturnError() {
         // When
         competitionService.deleteCompetition(ID_1);
@@ -131,18 +131,18 @@ public class CompetitionServiceTest {
     }
 
     @Test
-    public void testGetCompetitionsNoCompetitionsShouldReturnEmptyList() {
+    public void getCompetitionsNoCompetitionsShouldReturnEmptyList() {
         // Given
         // When
+        // Assert
         List<CompetitionDto> competitions = competitionService.getCompetitions();
 
-        // Assert
         assertNotNull(competitions);
         assertThat(competitions.size(), is(0));
     }
 
     @Test
-    public void testGetCompetitionsShouldReturnCompetitionList() {
+    public void getCompetitionsShouldReturnCompetitionList() {
         // Given
         List<Competition> competitions = Arrays.asList(Competition.builder().id(ID_1).description(COMPETITION_DESC_1).beginDate(new Date(DAY_0)).endDate(new Date(DAY_1)).organizer(ORGANIZER_1).place(PLACE_1).build(),
                 Competition.builder().id(ID_2).description(COMPETITION_DESC_2).beginDate(new Date(DAY_0)).endDate(new Date(DAY_1)).organizer(ORGANIZER_2).place(PLACE_2).build());
@@ -170,7 +170,7 @@ public class CompetitionServiceTest {
         assertThat(competitionDtos.get(1).getEndDate(), is(new Date(DAY_1)));
     }
 
-    @Test(expected = CompetitionNotExists.class)
+    @Test(expected = CompetitionNotExistsException.class)
     public void testCompetitionByIdNotExists() {
         CompetitionDto competitionDto = competitionService.getCompetition(ID_1);
     }

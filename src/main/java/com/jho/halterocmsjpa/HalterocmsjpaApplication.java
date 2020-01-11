@@ -13,7 +13,7 @@ public class HalterocmsjpaApplication {
   }
 
   @Bean
-  public ModelMapper mapper() {
+  public ModelMapper modelMapper() {
     return new ModelMapper();
   }
 

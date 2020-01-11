@@ -1,6 +1,14 @@
 package com.jho.halterocmsjpa.controller;
 
+import com.jho.halterocmsjpa.dto.athlete.AthleteDto;
+import com.jho.halterocmsjpa.service.AthleteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Athlete controller layer.
@@ -8,4 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AthleteController {
 
+    @Autowired
+    private AthleteService athleteService;
+
+    /**
+     * Get all athletes.
+     *
+     * @param gender gender to be filtered.
+     * @return a list with all the athletes.
+     */
+    @GetMapping("/athletes")
+    public List<AthleteDto> getAthletes(@RequestParam(value = "gender", required = false) Optional<String> gender) {
+        return athleteService.getAthletes(gender);
+    }
 }

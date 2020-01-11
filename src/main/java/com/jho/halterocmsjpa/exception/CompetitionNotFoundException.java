@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.ValidationException;
 
-@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "The competition does not exist")
-public class CompetitionNotExistsException extends ValidationException {
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "The competition does not exist")
+public class CompetitionNotFoundException extends ValidationException {
 
-    public CompetitionNotExistsException() {
+    public CompetitionNotFoundException() {
         super();
     }
 }

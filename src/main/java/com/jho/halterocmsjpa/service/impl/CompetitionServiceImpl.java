@@ -4,7 +4,7 @@ import com.jho.halterocmsjpa.dto.competition.CompetitionCreateDto;
 import com.jho.halterocmsjpa.dto.competition.CompetitionDto;
 import com.jho.halterocmsjpa.entity.Competition;
 import com.jho.halterocmsjpa.exception.CompetitionAlreadyExistsException;
-import com.jho.halterocmsjpa.exception.CompetitionNotExistsException;
+import com.jho.halterocmsjpa.exception.CompetitionNotFoundException;
 import com.jho.halterocmsjpa.repository.CompetitionRepository;
 import com.jho.halterocmsjpa.service.CompetitionService;
 import lombok.extern.slf4j.Slf4j;
@@ -95,7 +95,7 @@ public class CompetitionServiceImpl implements CompetitionService {
     private void checkIfCompetitionExists(Integer competitionId, Competition competition) {
         if (isNull(competition)) {
             log.error("Competition {} could not be deleted because it does not exists.", competitionId);
-            throw new CompetitionNotExistsException();
+            throw new CompetitionNotFoundException();
         }
     }
 

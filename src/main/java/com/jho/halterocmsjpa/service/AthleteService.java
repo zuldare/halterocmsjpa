@@ -14,4 +14,12 @@ public interface AthleteService {
      * @return a list with all the athletes.
      */
     List<AthleteDto> getAthletes(Optional<String> gender);
+
+    /**
+     * Get an athlete according an identification.
+     *
+     * @param athleteId identifiation of the athlete.
+     * @return the athlete with the matching identification.
+     */
+    AthleteDto getAthlete(Integer athleteId);
 }

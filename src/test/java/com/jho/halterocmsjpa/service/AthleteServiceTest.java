@@ -3,6 +3,7 @@ package com.jho.halterocmsjpa.service;
 import com.jho.halterocmsjpa.dto.athlete.AthleteDto;
 import com.jho.halterocmsjpa.entity.Athlete;
 import com.jho.halterocmsjpa.enums.GenderType;
+import com.jho.halterocmsjpa.exception.AthleteNotFoundException;
 import com.jho.halterocmsjpa.exception.GenderNotExistsException;
 import com.jho.halterocmsjpa.repository.AthleteRepository;
 import com.jho.halterocmsjpa.service.impl.AthleteServiceImpl;
@@ -142,6 +143,22 @@ public class AthleteServiceTest {
         assertThat(athleteDtos.get(1).getSurname(), is(SURNAME_2));
         assertThat(athleteDtos.get(1).getBirthYear(), is(BIRTH_YEAR_1995));
         assertThat(athleteDtos.get(1).getGender(), is(GenderType.FEMALE.getValue()));
+    }
+
+    @Test(expected = AthleteNotFoundException.class)
+    public void getAthleteNotFoundShouldReturnException() {
+        // Given
+        // When
+        // Assert
+        athleteService.getAthlete(ID_1);
+    }
+
+    @Test
+    public void getAthleteShouldReturnExpectedOK() {
+        // Given
+        // When
+        // Assert
+        AthleteDto athleteDto = athleteService.getAthlete(ID_1);
     }
 
     @TestConfiguration

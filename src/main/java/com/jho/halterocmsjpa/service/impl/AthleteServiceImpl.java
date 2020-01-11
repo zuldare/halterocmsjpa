@@ -3,6 +3,7 @@ package com.jho.halterocmsjpa.service.impl;
 import com.jho.halterocmsjpa.dto.athlete.AthleteDto;
 import com.jho.halterocmsjpa.entity.Athlete;
 import com.jho.halterocmsjpa.enums.GenderType;
+import com.jho.halterocmsjpa.exception.AthleteNotFoundException;
 import com.jho.halterocmsjpa.exception.GenderNotExistsException;
 import com.jho.halterocmsjpa.repository.AthleteRepository;
 import com.jho.halterocmsjpa.service.AthleteService;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.Objects.isNull;
 
 /**
  * Athlete service layer.
@@ -51,6 +54,23 @@ public class AthleteServiceImpl implements AthleteService {
         }
         return modelMapper.map(athletes, new TypeToken<List<AthleteDto>>() {
         }.getType());
+    }
+
+    /**
+     * Get an athlete according an identification.
+     *
+     * @param athleteId identifiation of the athlete.
+     * @return the athlete with the matching identification.
+     */
+    @Override
+    public AthleteDto getAthlete(Integer athleteId) {
+        Athlete athlete = athleteRepository.findAthleteById(athleteId);
+        if (isNull(athlete)) {
+            log.error("The athlete {} does not exists", athleteId);
+            throw new AthleteNotFoundException();
+        }
+
+        return modelMapper.map(athlete, AthleteDto.class);
     }
 
     /**

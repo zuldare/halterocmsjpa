@@ -13,4 +13,6 @@ import java.util.List;
 public interface AthleteRepository extends JpaRepository<Athlete, Integer> {
 
     List<Athlete> findAllByGender(Integer gender);
+
+    Athlete findAthleteById(Integer athleteId);
 }

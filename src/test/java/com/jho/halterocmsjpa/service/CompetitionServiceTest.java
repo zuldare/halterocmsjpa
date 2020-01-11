@@ -4,7 +4,7 @@ import com.jho.halterocmsjpa.dto.competition.CompetitionCreateDto;
 import com.jho.halterocmsjpa.dto.competition.CompetitionDto;
 import com.jho.halterocmsjpa.entity.Competition;
 import com.jho.halterocmsjpa.exception.CompetitionAlreadyExistsException;
-import com.jho.halterocmsjpa.exception.CompetitionNotExistsException;
+import com.jho.halterocmsjpa.exception.CompetitionNotFoundException;
 import com.jho.halterocmsjpa.repository.CompetitionRepository;
 import com.jho.halterocmsjpa.service.impl.CompetitionServiceImpl;
 import org.joda.time.DateTimeUtils;
@@ -111,7 +111,7 @@ public class CompetitionServiceTest {
         assertThat(competitionDto.getPlace(), is(PLACE_1));
     }
 
-    @Test(expected = CompetitionNotExistsException.class)
+    @Test(expected = CompetitionNotFoundException.class)
     public void deleteCompetitionIdNotExistsShouldReturnError() {
         // When
         competitionService.deleteCompetition(ID_1);
@@ -170,7 +170,7 @@ public class CompetitionServiceTest {
         assertThat(competitionDtos.get(1).getEndDate(), is(new Date(DAY_1)));
     }
 
-    @Test(expected = CompetitionNotExistsException.class)
+    @Test(expected = CompetitionNotFoundException.class)
     public void testCompetitionByIdNotExists() {
         CompetitionDto competitionDto = competitionService.getCompetition(ID_1);
     }

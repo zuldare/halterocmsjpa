@@ -22,4 +22,11 @@ public interface AthleteService {
      * @return the athlete with the matching identification.
      */
     AthleteDto getAthlete(Integer athleteId);
+
+    /**
+     * Delete athlete according to an identification.
+     *
+     * @param athleteId identification of the athlete to be deleted.
+     */
+    void deleteAthlete(Integer athleteId);
 }

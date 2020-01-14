@@ -38,6 +38,7 @@ public class AthleteServiceImpl implements AthleteService {
     @Autowired
     private ModelMapper modelMapper;
 
+
     /**
      * Get all athletes.
      *
@@ -69,7 +70,6 @@ public class AthleteServiceImpl implements AthleteService {
             log.error("The athlete {} does not exists", athleteId);
             throw new AthleteNotFoundException();
         }
-
         return modelMapper.map(athlete, AthleteDto.class);
     }
 
@@ -89,4 +89,20 @@ public class AthleteServiceImpl implements AthleteService {
         GenderType requestedGender = GenderType.valueOf(gender);
         return athleteRepository.findAllByGender(requestedGender.getValue());
     }
+
+    /**
+     * Delete athlete according to an identification.
+     *
+     * @param athleteId identification of the athlete to be deleted.
+     */
+    @Override
+    public void deleteAthlete(Integer athleteId) {
+        Athlete athlete = athleteRepository.findAthleteById(athleteId);
+        if (isNull(athlete)) {
+            log.error("Athlete {} does not exists", athleteId);
+            throw new AthleteNotFoundException();
+        }
+        athleteRepository.deleteById(athlete.getId());
+    }
+
 }

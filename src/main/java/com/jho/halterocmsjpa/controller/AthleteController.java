@@ -3,10 +3,7 @@ package com.jho.halterocmsjpa.controller;
 import com.jho.halterocmsjpa.dto.athlete.AthleteDto;
 import com.jho.halterocmsjpa.service.AthleteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,5 +37,15 @@ public class AthleteController {
     @GetMapping("/athletes/{athleteId}")
     public AthleteDto getAthlete(@PathVariable Integer athleteId) {
         return athleteService.getAthlete(athleteId);
+    }
+
+    /**
+     * Delete athlete according to an identification.
+     *
+     * @param athleteId identification of the athlete to be deleted.
+     */
+    @DeleteMapping("/athlete/{athleteId}")
+    public void deleteAthlete(@PathVariable Integer athleteId) {
+        athleteService.deleteAthlete(athleteId);
     }
 }

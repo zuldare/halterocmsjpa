@@ -9,6 +9,8 @@ import com.jho.halterocmsjpa.repository.AthleteRepository;
 import com.jho.halterocmsjpa.service.impl.AthleteServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
@@ -49,6 +51,9 @@ public class AthleteServiceTest {
 
     @MockBean
     private AthleteRepository athleteRepository;
+
+    @Captor
+    private ArgumentCaptor<Athlete> athleteArgumentCaptor;
 
     @Test
     public void getAllAthletesNoExistingShouldReturnEmptyList() {
@@ -157,8 +162,49 @@ public class AthleteServiceTest {
     public void getAthleteShouldReturnExpectedOK() {
         // Given
         // When
+        when(athleteRepository.findAthleteById(ID_1))
+                .thenReturn(Athlete.builder()
+                        .id(ID_1)
+                        .birthYear(BIRTH_YEAR_1981)
+                        .gender(GenderType.MALE.getValue())
+                        .name(NAME_1)
+                        .surname(SURNAME_1)
+                        .build());
+
         // Assert
         AthleteDto athleteDto = athleteService.getAthlete(ID_1);
+
+        assertThat(athleteDto.getId(), is(ID_1));
+        assertThat(athleteDto.getName(), is(NAME_1));
+        assertThat(athleteDto.getSurname(), is(SURNAME_1));
+        assertThat(athleteDto.getBirthYear(), is(BIRTH_YEAR_1981));
+        assertThat(athleteDto.getGender(), is(GenderType.MALE.getValue()));
+    }
+
+    @Test(expected = AthleteNotFoundException.class)
+    public void deleteAthleteNotExistingShouldReturnException() {
+        // Given
+        // When
+        // Assert
+        athleteService.deleteAthlete(ID_1);
+        verify(athleteRepository, never()).deleteById(ID_1);
+    }
+
+    @Test
+    public void deleteAthlete() {
+        // Given
+        // When
+        when(athleteRepository.findAthleteById(ID_1))
+                .thenReturn(Athlete.builder()
+                        .id(ID_1)
+                        .birthYear(BIRTH_YEAR_1981)
+                        .gender(GenderType.MALE.getValue())
+                        .name(NAME_1)
+                        .surname(SURNAME_1)
+                        .build());
+        // Assert
+        athleteService.deleteAthlete(ID_1);
+        verify(athleteRepository, times(1)).deleteById(eq(ID_1));
     }
 
     @TestConfiguration

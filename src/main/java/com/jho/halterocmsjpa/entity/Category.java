@@ -37,7 +37,7 @@ public class Category {
 
   @Column(name = "final_weight")
   @Digits(integer = 3, fraction = 2)
-  private Double finalWeight;
+  private BigDecimal finalWeight;
 
   @Column(name = "gender")
   private Integer gender;

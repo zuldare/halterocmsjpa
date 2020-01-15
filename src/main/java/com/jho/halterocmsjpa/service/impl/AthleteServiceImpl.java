@@ -49,8 +49,10 @@ public class AthleteServiceImpl implements AthleteService {
     public List<AthleteDto> getAthletes(Optional<String> gender) {
         List<Athlete> athletes = new ArrayList<>();
         if (gender.isPresent()) {
+            log.info("Find all athletes with gender {}", gender.get());
             athletes = getAthletesAccordingToGender(gender.get());
         } else {
+            log.info("Find all athletes");
             athletes = athleteRepository.findAll();
         }
         return modelMapper.map(athletes, new TypeToken<List<AthleteDto>>() {
@@ -60,7 +62,7 @@ public class AthleteServiceImpl implements AthleteService {
     /**
      * Get an athlete according an identification.
      *
-     * @param athleteId identifiation of the athlete.
+     * @param athleteId identification of the athlete.
      * @return the athlete with the matching identification.
      */
     @Override

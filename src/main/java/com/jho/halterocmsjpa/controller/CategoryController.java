@@ -1,9 +1,11 @@
 package com.jho.halterocmsjpa.controller;
 
+import com.jho.halterocmsjpa.dto.category.CategoryBodyWeightGenderRequestDto;
 import com.jho.halterocmsjpa.dto.category.CategoryDto;
 import com.jho.halterocmsjpa.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,6 +27,17 @@ public class CategoryController {
     @GetMapping("/categories")
     public List<CategoryDto> getCategories() {
         return categoryService.getCategories();
+    }
+
+    /**
+     * Returns a category based on gender and bodyweight.
+     *
+     * @param categoryBodyWeightGenderRequest dto containing filtering information.
+     * @return the category matching the criteria.
+     */
+    @GetMapping("/categories")
+    public CategoryDto getCategoryByGenderAndBodyWeight(@RequestBody CategoryBodyWeightGenderRequestDto categoryBodyWeightGenderRequest) {
+        return categoryService.getCategoryByGenderAndBodyWeight(categoryBodyWeightGenderRequest);
     }
 
 }

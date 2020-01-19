@@ -1,8 +1,10 @@
 package com.jho.halterocmsjpa.service;
 
+import com.jho.halterocmsjpa.dto.category.CategoryBodyWeightGenderRequestDto;
 import com.jho.halterocmsjpa.dto.category.CategoryDto;
 import com.jho.halterocmsjpa.entity.Category;
 import com.jho.halterocmsjpa.enums.GenderType;
+import com.jho.halterocmsjpa.exception.CategoryNotFoundException;
 import com.jho.halterocmsjpa.repository.CategoryRepository;
 import com.jho.halterocmsjpa.service.impl.CategoryServiceImpl;
 import org.junit.Test;
@@ -24,6 +26,8 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -34,7 +38,12 @@ public class CategoryServiceTest {
     private static final Integer ID_1 = 1;
     private static final BigDecimal MIN_110 = new BigDecimal(110);
     private static final BigDecimal MAX_110 = new BigDecimal(300);
+    public static final String DESC_75 = "Cat. 75M";
+    private static final BigDecimal BODYWEIGHT_77_5 = new BigDecimal(77.5);
+    private static final BigDecimal WEIGHT_75 = new BigDecimal(75.0);
     private static final String SHORT_DESC_110 = "M110";
+    private static final BigDecimal WEIGHT_81 = new BigDecimal(81);
+    private static final String SHORT_DESC_75 = "M75";
 
     @Autowired
     private CategoryService categoryService;
@@ -71,6 +80,48 @@ public class CategoryServiceTest {
         assertThat(categoriesDto.get(0).getGender(), is(GenderType.MALE.getValue()));
         assertThat(categoriesDto.get(0).getInitialWeight(), is(MIN_110));
         assertThat(categoriesDto.get(0).getFinalWeight(), is(MAX_110));
+    }
+
+    @Test(expected = CategoryNotFoundException.class)
+    public void getCategoryByGenderAndBodyWeightAndCategoryIsNotFoundShouldReturnException() {
+        // Given
+        CategoryBodyWeightGenderRequestDto requestDto = CategoryBodyWeightGenderRequestDto.builder()
+                .bodyweight(BODYWEIGHT_77_5)
+                .genderType(GenderType.MALE)
+                .build();
+        // When
+        // Then
+        CategoryDto categoryDto = categoryService.getCategoryByGenderAndBodyWeight(requestDto);
+    }
+
+    @Test
+    public void getCategoryByGenderAndBodyWeightAndCategory() {
+        // Given
+        CategoryBodyWeightGenderRequestDto requestDto = CategoryBodyWeightGenderRequestDto.builder()
+                .bodyweight(BODYWEIGHT_77_5)
+                .genderType(GenderType.MALE)
+                .build();
+
+        // When
+        when(categoryRepository.findCategoryByGenderAndBodyWeight(any(BigDecimal.class), anyInt()))
+                .thenReturn(Category.builder()
+                        .id(ID_1)
+                        .shortDescription(SHORT_DESC_75)
+                        .description(DESC_75)
+                        .gender(GenderType.MALE.getValue())
+                        .initialWeight(WEIGHT_75)
+                        .finalWeight(WEIGHT_81)
+                        .build());
+
+        // Assert
+        CategoryDto categoryDto = categoryService.getCategoryByGenderAndBodyWeight(requestDto);
+        assertNotNull(categoryDto);
+        assertThat(categoryDto.getId(), is(ID_1));
+        assertThat(categoryDto.getDescription(), is(DESC_75));
+        assertThat(categoryDto.getShortDescription(), is(SHORT_DESC_75));
+        assertThat(categoryDto.getInitialWeight(), is(WEIGHT_75));
+        assertThat(categoryDto.getFinalWeight(), is(WEIGHT_81));
+
     }
 
     @TestConfiguration

@@ -42,14 +42,9 @@ public class Bout {
   @OneToMany(mappedBy = "bout", cascade = CascadeType.ALL)
   private Set<AthleteBout> athletesBouts;
 
-  @Transient
   private Integer numberOfLifts;
 
-  @Transient
   private Boolean areSnatchesFinished;
 
-  @Transient
   private Boolean areCJFinished;
-
-
 }

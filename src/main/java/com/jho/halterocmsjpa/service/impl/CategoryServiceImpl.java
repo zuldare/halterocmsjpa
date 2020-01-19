@@ -57,7 +57,6 @@ public class CategoryServiceImpl implements CategoryService {
             log.error("No category was found for the request {}", categoryBodyWeightGenderRequest);
             throw new CategoryNotFoundException();
         }
-
         return modelMapper.map(category, CategoryDto.class);
     }
 }

@@ -1,6 +1,7 @@
 package com.jho.halterocmsjpa.service;
 
 import com.jho.halterocmsjpa.dto.bout.BoutDto;
+import com.jho.halterocmsjpa.exception.CompetitionNotFoundException;
 import com.jho.halterocmsjpa.repository.BoutRepository;
 import com.jho.halterocmsjpa.repository.CompetitionRepository;
 import com.jho.halterocmsjpa.service.impl.BoutServiceImpl;
@@ -25,6 +26,8 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringRunner.class)
 public class BoutServiceTest {
 
+    private static Integer COMP_ID = 1;
+
     @Autowired
     private BoutService boutService;
 
@@ -34,6 +37,17 @@ public class BoutServiceTest {
     @MockBean
     private CompetitionRepository competitionRepository;
 
+    @Test(expected = CompetitionNotFoundException.class)
+    public void getBoutsOfCompetitionNotExistingShouldException() {
+        List<BoutDto> boutDtos = boutService.getBoutsOfCompetition(COMP_ID);
+    }
+
+    @Test
+    public void getBoutsOfCompetitionWhenNoBoutsExistsShouldReturnEmptyList() {
+        when()
+        List<BoutDto> boutDtos = boutService.getBoutsOfCompetition(COMP_ID);
+
+    }
 
     @Test
     public void getBoutsWhenNoOneExistsShouldReturnEmpty() {

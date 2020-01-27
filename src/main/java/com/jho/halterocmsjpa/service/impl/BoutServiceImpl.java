@@ -4,6 +4,7 @@ import com.jho.halterocmsjpa.dto.athlete.AthleteDto;
 import com.jho.halterocmsjpa.dto.bout.BoutDto;
 import com.jho.halterocmsjpa.entity.Bout;
 import com.jho.halterocmsjpa.entity.Competition;
+import com.jho.halterocmsjpa.exception.CompetitionNotFoundException;
 import com.jho.halterocmsjpa.repository.BoutRepository;
 import com.jho.halterocmsjpa.repository.CompetitionRepository;
 import com.jho.halterocmsjpa.service.BoutService;
@@ -13,7 +14,6 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -59,7 +59,8 @@ public class BoutServiceImpl implements BoutService {
         Competition competition = competitionRepository.findCompetitionById(competitionId);
 
         if (isNull(competition)) {
-            return new ArrayList<>();
+            log.error("Competition {} has not been found", competitionId);
+            throw new CompetitionNotFoundException();
         }
 
         List<Bout> bouts = boutRepository.findBoutsByCompetition(competition);

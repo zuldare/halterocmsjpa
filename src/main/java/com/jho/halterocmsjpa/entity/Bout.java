@@ -18,8 +18,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "BOUTS")
-public class Bout {
+public class Bout implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+  
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
@@ -42,6 +44,7 @@ public class Bout {
   @OneToMany(mappedBy = "bout", cascade = CascadeType.ALL)
   private Set<AthleteBout> athletesBouts;
 
+  // TODO MOVE TO BOUTDTO
   private Integer numberOfLifts;
 
   private Boolean areSnatchesFinished;

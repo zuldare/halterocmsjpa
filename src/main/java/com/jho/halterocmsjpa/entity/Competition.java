@@ -45,7 +45,7 @@ public class Competition {
   @Column(name = "end")
   private Date endDate;
 
-  @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Bout> bouts;
 
 }
